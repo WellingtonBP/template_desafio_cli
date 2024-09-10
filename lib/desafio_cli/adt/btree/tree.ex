@@ -26,4 +26,19 @@ defmodule DesafioCli.Adt.Btree.Tree do
 
   def search(%BtreeNode{right: right} = _, searched_key),
     do: search(right, searched_key)
+
+  def merge(root, tree) do
+    tree
+    |> values()
+    |> Enum.reduce(root, fn value, acc ->
+      acc
+      |> insert(value)
+      |> elem(1)
+    end)
+  end
+
+  def values(nil), do: []
+
+  def values(%BtreeNode{value: value, left: left, right: right}),
+    do: values(left) ++ [value | values(right)]
 end

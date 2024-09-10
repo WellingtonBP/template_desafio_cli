@@ -14,8 +14,8 @@ defmodule DesafioCli.KvStore.ShardSupervisor do
     DynamicSupervisor.init(strategy: :one_for_one)
   end
 
-  def add_shard(name) do
-    {:ok, pid} = DynamicSupervisor.start_child(@me, {Shard, name})
+  def add_shard(name, idx) do
+    {:ok, pid} = DynamicSupervisor.start_child(@me, {Shard, {name, idx}})
     pid
   end
 end

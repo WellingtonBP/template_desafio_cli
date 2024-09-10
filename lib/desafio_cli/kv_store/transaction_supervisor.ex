@@ -14,8 +14,8 @@ defmodule DesafioCli.KvStore.TransactionSupervisor do
     DynamicSupervisor.init(strategy: :one_for_one)
   end
 
-  def add_transaction(name, idx) do
-    {:ok, pid} = DynamicSupervisor.start_child(@me, {Transaction, {name, idx}})
+  def add_transaction(name) do
+    {:ok, pid} = DynamicSupervisor.start_child(@me, {Transaction, name})
     pid
   end
 end

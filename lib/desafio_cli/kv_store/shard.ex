@@ -2,42 +2,25 @@ defmodule DesafioCli.KvStore.Shard do
   alias DesafioCli.Adt.Btree.Tree
   use GenServer, restart: :permanent
 
-  def start_link(name) do
-    GenServer.start_link(__MODULE__, nil, name: name)
+  def start_link({name, idx}) do
+    GenServer.start_link(__MODULE__, %{tree: nil, shard_idx: idx}, name: name)
   end
 
-  def init(nil) do
-    {:ok, nil}
+  def init(state) do
+    {:ok, state}
   end
 
-  def handle_call({:set, key, value}, _from, tree) do
+  def handle_call({:set, key, value}, _from, %{tree: tree} = state) do
     {status, updated_tree} = Tree.insert(tree, {key, value})
-
-    reply =
-      status
-      |> case do
-        :inserted ->
-          "FALSE #{value}"
-
-        :updated ->
-          "TRUE #{value}"
-      end
-
-    {:reply, reply, updated_tree}
+    {:reply, status, %{state | tree: updated_tree}}
   end
 
-  def handle_call({:get, key}, _from, tree) do
-    reply =
-      tree
-      |> Tree.search(key)
-      |> case do
-        :not_found ->
-          "NIL"
+  def handle_call({:get, key}, _from, %{tree: tree} = state) do
+    {:reply, Tree.search(tree, key), state}
+  end
 
-        {:found, {_, value}} ->
-          value
-      end
-
-    {:reply, reply, tree}
+  def handle_cast({:merge, tree_to_merge}, %{tree: tree} = state) do
+    updated_tree = Tree.merge(tree, tree_to_merge)
+    {:noreply, %{state | tree: updated_tree}}
   end
 end

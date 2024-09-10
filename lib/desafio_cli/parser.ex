@@ -41,8 +41,8 @@ defmodule DesafioCli.Parser do
     end)
   end
 
-  defp parse_value("TRUE"), do: true
-  defp parse_value("FALSE"), do: false
+  defp parse_value("TRUE"), do: :TRUE
+  defp parse_value("FALSE"), do: :FALSE
   defp parse_value("NIL"), do: nil
 
   defp parse_value(value) do
