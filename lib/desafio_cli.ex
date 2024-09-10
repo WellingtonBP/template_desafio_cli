@@ -8,10 +8,6 @@ defmodule DesafioCli do
   comando como lista de strings e executa a CLI.
   """
   def main(_args) do
-    IO.puts(phrase())
-  end
-
-  def phrase() do
-    "Hello, world!"
+    DesafioCli.CLI.start()
   end
 end
