@@ -1,4 +1,6 @@
 defmodule DesafioCli.CLI do
+  alias DesafioCli.KvStore.Backbone
+
   def start do
     loop()
   end
@@ -9,8 +11,11 @@ defmodule DesafioCli.CLI do
     |> String.trim()
     |> DesafioCli.Parser.parse()
     |> case do
-      {:ok, result} ->
-        IO.inspect(result)
+      {:ok, command} ->
+        command
+        |> Backbone.execute()
+        |> IO.puts()
+
         loop()
 
       {:error, reason} ->
