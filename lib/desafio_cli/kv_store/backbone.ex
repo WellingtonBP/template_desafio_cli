@@ -132,7 +132,7 @@ defmodule DesafioCli.KvStore.Backbone do
   end
 
   defp shard_idx_for_key(key, shards_count) do
-    :erlang.phash2(key, shards_count)
+    :erlang.phash2(key, shards_count) + 1
   end
 
   defp process_get(key, shards_count, transactions) do
