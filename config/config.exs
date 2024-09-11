@@ -1,4 +1,4 @@
 import Config
 
-config :kv_store,
+config :desafio_cli,
   shards: 4

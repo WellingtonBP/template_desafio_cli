@@ -3,7 +3,7 @@ defmodule DesafioCli.KvStore.Application do
 
   alias DesafioCli.KvStore.{Backbone, ShardSupervisor, Persistence, TransactionSupervisor}
 
-  @application :kv_store
+  @application :desafio_cli
 
   @impl true
   def start(_type, _args) do
